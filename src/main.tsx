@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './pages/app'
 
+import './assets/styles/tailwind.css'
 import './assets/styles/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
