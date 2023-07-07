@@ -131,8 +131,11 @@ table {
 }
 
 body {
+  font-family: 'Roboto', sans-serif;
+    font-weight: 400;
   font-size: 62.5%;
-    line-height: 1;
+
+  line-height: 1;
   background-color: #262835;
   color: #ffffff;
 }
