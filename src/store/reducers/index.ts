@@ -1,4 +1,4 @@
-import counterSlice from '../slices/counterSlice'
+import counterSlice from './counterSlice'
 import { combineReducers } from 'redux'
 
 const rootReducers = combineReducers({
