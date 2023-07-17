@@ -1,27 +1,43 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const pokemonApi = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://pokeapi.co/api/v2' }),
+  reducerPath: 'pokeApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://pokeapi.co/api/v2/' }),
+  tagTypes: [],
   endpoints: builder => ({
-    getPokemons: builder.query({
+    getAllPokemons: builder.query<any, any>({
       query: () => ({
         method: 'GET',
         url: 'pokemon?offset=0&limit=100'
       }),
-      transformResponse: ({ results }) => {
-        console.log('transformResponse:', results)
-        return results
-      }
+      transformResponse: ({ results }) => results
     }),
     getPokemonByName: builder.query<any, string>({
-      query: name => `pokemon/${ name }`
-    })
+      query: name => ({
+        method: 'GET',
+        url: `pokemon/${ name }`
+      }),
+      transformResponse: results => {
+        const { name, types, stats } = results
+        const data = {
+          name,
+          types: types.map(({ type }) => type.name),
+          stats: stats.map(({ base_stat, stat }) => ({
+            name: stat.name,
+            value: base_stat,
+          })),
+        }
+
+        return data
+      }
+    }),
   })
 })
 
 export const {
-  useGetPokemonsQuery,
-  useGetPokemonByNameQuery
+  useGetAllPokemonsQuery,
+  useGetPokemonByNameQuery,
 } = pokemonApi
